@@ -16,16 +16,23 @@ class RefreshToken extends Model
 
     const CURRENT_VERSION = 2;
 
-    protected $primary_key = 'character_id';
+    protected $primaryKey = 'character_id';
 
     protected $attributes = [
         'version'   => self::CURRENT_VERSION,
     ];
 
-    protected $dates    =   ['expires_one', 'deleted_at'];
+     /**
+     * @var array
+     */
+    protected $dates = ['expires_on', 'deleted_at'];
 
     protected $fillable = [
         'character_id', 'version', 'user_id', 'refresh_token', 'scopes', 'expires_on', 'token', 'character_owner_hash'
+    ];
+
+    protected $casts = [
+        'scopes' => 'array',
     ];
 
     public $incrementing = false;
@@ -41,6 +48,7 @@ class RefreshToken extends Model
 
     public function getTokenAttribute($value)
     {
+
         if($this->expires_on->gt(Carbon::now()))
             return $value;
 
@@ -48,7 +56,7 @@ class RefreshToken extends Model
     }
 
     public function user(){
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id','id');
     }
 
     public function character(){
@@ -60,5 +68,9 @@ class RefreshToken extends Model
         $this->traitRunSoftDelete();
 
         $this->fireModelEvent('softDelete', false);
+    }
+
+    public function version(){
+        return self::CURRENT_VERSION;
     }
 }

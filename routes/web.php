@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', '\App\Http\Controllers\HomeController@index');
+Route::get('/', '\App\Http\Controllers\HomeController@index')->name('login');
 
 
 Route::group(['namespace'=>'App\Http\Controllers\Auth'], function(){
@@ -29,5 +29,26 @@ Route::group(['namespace'=>'App\Http\Controllers\Auth'], function(){
     ]);
 
 });
+
+Route::group([
+    'middleware'=> ['web', 'auth'],
+    'namespace' => 'App\Http\Controllers',
+], function(){
+
+    Route::get('/home', 'HomeController@home')->name('main');
+
+    Route::get('/logout', 'HomeController@logout')->name('logout');
+
+    Route::post('/character/{character}/toggleTracking',
+        'CharacterController@toggleTracking')
+        ->name('character.tracking.toggle');
+
+    Route::post('/character/{character}/getLocation', 'CharacterController@getLocation')
+        ->name('character.location.fetch');
+
+     Route::post('/character/{character}/queueLocation', 'CharacterController@queueLocation')
+        ->name('character.location.queue');
+});
+
 
 

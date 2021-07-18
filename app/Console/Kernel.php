@@ -24,7 +24,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command("eve:esi:status")->hourly();
+        $schedule->command("eve:server:status")->hourly();
+
         // $schedule->command('inspire')->hourly();
+    }
+
+    protected function shortSchedule(\Spatie\ShortSchedule\ShortSchedule $shortSchedule)
+    {
+        $shortSchedule->command('eve:locations:update')
+            ->everySeconds(5)
+            ->withoutOverlapping();
     }
 
     /**

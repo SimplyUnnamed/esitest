@@ -3,7 +3,7 @@
 @section('layout')
     @push('style')
         <style>
-            .cover-container{
+            .cover-container {
                 max-width: 42em;
             }
         </style>
@@ -16,11 +16,11 @@
         </header>
         <main class="px-3">
             @yield('content')
+
         </main>
 
         <footer class="mt-auto text-white-50">
         </footer>
     </div>
-
 
 @endsection

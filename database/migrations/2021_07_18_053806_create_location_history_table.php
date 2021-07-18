@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCharacterTrackingTrable extends Migration
+class CreateLocationHistoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateCharacterTrackingTrable extends Migration
      */
     public function up()
     {
-        Schema::create('character_tracking_trable', function (Blueprint $table) {
-            $table->integer('user_id');
+        Schema::create('location_histories', function (Blueprint $table) {
+            $table->id();
             $table->integer('character_id');
+            $table->integer('solar_system_id');
+            $table->integer('station_id')->nullable();
+            $table->integer('structure_id')->nullable();
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('character_id')->references('character_id')->on('characters');
         });
     }
 
@@ -30,6 +30,6 @@ class CreateCharacterTrackingTrable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('character_tracking_trable');
+        Schema::dropIfExists('location_histories');
     }
 }

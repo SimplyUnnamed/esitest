@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCharactersTable extends Migration
+class CreateEsiStatusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateCharactersTable extends Migration
      */
     public function up()
     {
-        Schema::create('characters', function (Blueprint $table) {
-            $table->bigInteger('character_id')->unique();
-            $table->string('name');
-            $table->boolean('tracking')->default(false);
+        Schema::create('esi_status', function (Blueprint $table) {
+            $table->float('request_time');
+            $table->string('status');
+
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateCharactersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('characters');
+        Schema::dropIfExists('esi_status');
     }
 }

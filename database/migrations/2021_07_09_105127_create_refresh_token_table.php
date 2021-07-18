@@ -13,9 +13,9 @@ class CreateRefreshTokenTable extends Migration
      */
     public function up()
     {
-        Schema::create('refresh_token', function (Blueprint $table) {
+        Schema::create('refresh_tokens', function (Blueprint $table) {
             $table->integer('character_id');
-            $table->smallIncrements('version');
+            $table->smallInteger('version');
             $table->integer('user_id');
             $table->mediumText('refresh_token');
             $table->longText('scopes');
@@ -36,6 +36,6 @@ class CreateRefreshTokenTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('refresh_token');
+        Schema::dropIfExists('refresh_tokens');
     }
 }

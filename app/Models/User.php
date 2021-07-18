@@ -40,4 +40,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function refresh_tokens(){
+        return $this->hasMany(RefreshToken::class);
+    }
+
+    public function characters(){
+        return $this->hasManyThrough(Character::class, RefreshToken::class, 'user_id', 'character_id', 'id', 'character_id');
+    }
+
+    public function sessions(){
+        return $this->hasMany(Session::class);
+    }
 }
