@@ -41,20 +41,23 @@ class Location extends AbstractedAuthCharacterJob
      */
     public function handle()
     {
-        logger()->warning("Log gets here: pre-retrieve");
+        //Call & retrieve the ESI response
         $location = $this->retrieve([
             'character_id'=>$this->getCharacterId(),
         ]);
 
+        //Get the last history for the character
         $latest = LocationHistory::where(['character_id' => $this->getCharacterId()])->latest()->first();
+        //Create a new Location object from the esi response
         $new = new LocationHistory([
             'character_id' => $this->getCharacterId(),
             'solar_system_id' => $location->solar_system_id,
             'station_id'    => property_exists($location, 'station_id') ? $location->station_id : null,
             'structure_id'  => property_exists($location, 'structure_id') ? $location->structure_id : null,
         ]);
-        //dd($latest, $new, $latest->isSameLocationAs($new));
 
+        //if there is no history, or the location has changed
+        //save the new location.
         if(is_null($latest) || !$latest->isSameLocationAs($new)){
             $new->save();
         }

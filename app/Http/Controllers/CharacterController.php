@@ -9,16 +9,33 @@ use App\Models\Character;
 class CharacterController extends Controller
 {
 
+    /**
+     * Toggles the tracking of a character
+     * @param Character $character
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function toggleTracking(Character $character){
         $character->toggleTracking();
         return back();
     }
 
+    /**
+     * Debug function
+     * Calls the Location job for a character
+     * @param Character $character
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function getLocation(Character $character){
         Location::dispatchSync($character->RefreshToken);
         return back();
     }
 
+    /**
+     * Debug function
+     * Queues the location job for a character.
+     * @param Character $character
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function queueLocation(Character $character){
         Location::dispatch($character->RefreshToken)->onQueue('locations');
         return back();

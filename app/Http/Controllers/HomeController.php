@@ -16,11 +16,19 @@ class HomeController extends Controller
         return view('home');
     }
 
+
     public function home(){
+
         $characters = auth()->user()->characters;
-        $locations = LocationHistory::whereHas('refreshToken', function($query){
+
+        //Get the last 10 locations for the users characters
+        /*$locations = LocationHistory::whereHas('refreshToken', function($query){
             $query->where('user_id', auth()->user()->getKey());
-        })->with('character')->latest()->limit(10)->get();
+        })->with('character')->latest()->limit(10)->get();*/
+
+        //Im an idiot. here's an easier way
+        $locations = LocationHistory::whereIn('character_id', $characters->pluck('character_id'))
+                                ->latest()->limit(10)->get();;
 
         return view('main', compact('characters', 'locations'));
     }

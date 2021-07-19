@@ -43,13 +43,18 @@ class UpdateLocations extends Command
      */
     public function handle()
     {
-        $tokens = RefreshToken::whereHas('user.sessions')->get();
+        //Get Tokens with valid user sessions
+        $tokens = RefreshToken::whereHas('user.sessions')
+            //and where characters are being tracked
+            ->whereHas('character',function($character){
+                $character->tracking();
+            })->get();
 
+        //dispatch the jobs to find them
         $tokens->each(function($token){
             Location::dispatch($token)->onQueue('locations');
         });
 
-        //dispatch(new SpawnLocationJobs($tokens));
         return 0;
     }
 }

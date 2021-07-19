@@ -4,8 +4,9 @@
 namespace App\Models;
 
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Builder;
+
 
 class Character extends Model
 {
@@ -21,16 +22,14 @@ class Character extends Model
     ];
 
 
-
-    /*public function user(){
-        return $this->belongsTo(User::class);
-    }*/
-
     public function toggleTracking(){
         $this->tracking = !$this->tracking;
         $this->save();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function RefreshToken(){
         return $this->hasOne(RefreshToken::class,'character_id', 'character_id');
     }
