@@ -54,7 +54,8 @@ class Location extends AbstractedAuthCharacterJob
             'structure_id'  => property_exists($location, 'structure_id') ? $location->structure_id : null,
         ]);
         //dd($latest, $new, $latest->isSameLocationAs($new));
-        if(!$latest->isSameLocationAs($new)){
+
+        if(is_null($latest) || !$latest->isSameLocationAs($new)){
             $new->save();
         }
     }

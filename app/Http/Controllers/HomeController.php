@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\Location\Character\Location;
+use App\Models\LocationHistory;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -16,8 +18,11 @@ class HomeController extends Controller
 
     public function home(){
         $characters = auth()->user()->characters;
+        $locations = LocationHistory::whereHas('refreshToken', function($query){
+            $query->where('user_id', auth()->user()->getKey());
+        })->with('character')->latest()->limit(10)->get();
 
-        return view('main', compact('characters'));
+        return view('main', compact('characters', 'locations'));
     }
 
     public function logout(){
