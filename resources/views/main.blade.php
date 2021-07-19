@@ -24,36 +24,40 @@
                 </tr>
                 </thead>
                 <tbody>
-                    @foreach($characters as $toon)
+                @foreach($characters as $toon)
 
-                        <tr>
-                            <td class="text-start">{{$toon->name}}</td>
-                            <td>
-                                {{$toon->currentLocation->solar_system_id}}
-                            </td>
-                            <td>
-                                <form action="{{ route('character.tracking.toggle', ['character'=>$toon->getKey()]) }}" method="POST">
+                    <tr>
+                        <td class="text-start">{{$toon->name}}</td>
+                        <td>
+                            {{$toon->currentLocation->solar_system_id}}
+                        </td>
+                        <td>
+                            <form action="{{ route('character.tracking.toggle', ['character'=>$toon->getKey()]) }}"
+                                  method="POST">
+                                @CSRF
+                                <button type="submit" class="btn btn-{{ $toon->tracking ? 'danger' : 'primary' }}">
+                                    {{ $toon->tracking ? 'Disabled' : 'Enable' }}
+                                </button>
+                            </form>
+                            @if(false)
+                                <form action="{{ route('character.location.fetch', ['character'=>$toon->getKey()]) }}"
+                                      method="POST">
                                     @CSRF
-                                    <button type="submit" class="btn btn-{{ $toon->tracking ? 'danger' : 'primary' }}">
-                                        {{ $toon->tracking ? 'Disabled' : 'Enable' }}
-                                    </button>
-                                </form>
-                                @if()
-                                <form action="{{ route('character.location.fetch', ['character'=>$toon->getKey()]) }}" method="POST">
-                                     @CSRF
                                     <button type="submit" class="btn btn-info">
                                         Update Location
                                     </button>
                                 </form>
-                                <form action="{{ route('character.location.queue', ['character'=>$toon->getKey()]) }}" method="POST">
-                                     @CSRF
+                                <form action="{{ route('character.location.queue', ['character'=>$toon->getKey()]) }}"
+                                      method="POST">
+                                    @CSRF
                                     <button type="submit" class="btn btn-info">
                                         Queue Location
                                     </button>
                                 </form>
-                            </td>
-                        </tr>
-                        @endforeach
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
 
@@ -68,20 +72,20 @@
             <h1>Location History</h1>
             <table class="w-100 text-start">
                 <thead>
-                    <tr>
-                        <th>Timestamp</th>
-                        <th>Character</th>
-                        <th>SolarSystemID</th>
-                    </tr>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Character</th>
+                    <th>SolarSystemID</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach($locations as $location)
-                        <tr>
-                            <td>{{$location->created_at}}</td>
-                            <td>{{$location->character->name}}</td>
-                            <td>{{$location->solar_system_id}} - {{$location->station_id}}</td>
-                        </tr>
-                    @endforeach
+                @foreach($locations as $location)
+                    <tr>
+                        <td>{{$location->created_at}}</td>
+                        <td>{{$location->character->name}}</td>
+                        <td>{{$location->solar_system_id}} - {{$location->station_id}}</td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>
