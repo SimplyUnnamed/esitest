@@ -27,22 +27,35 @@ class Character extends Model
         $this->save();
     }
 
+
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function RefreshToken(){
+    public function RefreshToken(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
         return $this->hasOne(RefreshToken::class,'character_id', 'character_id');
     }
 
-    public function locations(){
+    public function locations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(LocationHistory::class, 'character_id', 'character_id');
     }
 
-    public function currentLocation(){
+    public function currentLocation(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
         return $this->hasOne(LocationHistory::class, 'character_id', 'character_id')->latest();
     }
 
-    public function scopeTracking(Builder $query){
+    public function scopeBelongsToUser(Builder $query): Builder
+    {
+        return $query->whereHas('RefreshToken', function($query){
+            $query->where('user_id', auth()->user()->getKey());
+        });
+    }
+
+    public function scopeTracking(Builder $query): Builder
+    {
         return $query->where('tracking', true);
     }
 }

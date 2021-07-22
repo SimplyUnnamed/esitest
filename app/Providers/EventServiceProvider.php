@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\CharacterLocationChanged;
+use App\Listeners\UpdateMap;
+use App\Models\Character;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -21,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
             'App\Socialite\EveOnline\EveOnlineExtendSocialite@handle'
         ],
+        CharacterLocationChanged::class => [
+            [UpdateMap::class, 'handle']
+        ]
     ];
 
     /**

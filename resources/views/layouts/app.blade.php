@@ -10,7 +10,7 @@
 
 @section('layout')
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-        <header class="mb-auto border-bottom border-3 border-white d-flex justify-content-between">
+        <header class="border-bottom border-3 border-white d-flex justify-content-between">
             <div class="w-100">
                 <h3 class="float-md-start mb-0">{{config('app.name')}}</h3>
             </div>
@@ -28,6 +28,9 @@
                 <div class="col-12 col-md-4">
                     @yield('right')
                 </div>
+            </div>
+            <div class="row">
+                @yield('map')
             </div>
         </main>
 

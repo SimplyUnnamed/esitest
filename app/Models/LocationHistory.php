@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Sde\Station;
+use App\Models\Sde\System;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Znck\Eloquent\Traits\BelongsToThrough;
@@ -29,6 +31,16 @@ class LocationHistory extends Model
 
     public function character(){
         return $this->belongsTo(Character::class, 'character_id', 'character_id');
+    }
+
+    public function system(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(System::class, 'solar_system_id', 'system_id');
+    }
+
+    public function station(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Station::class, 'station_id', 'stationID');
     }
 
 

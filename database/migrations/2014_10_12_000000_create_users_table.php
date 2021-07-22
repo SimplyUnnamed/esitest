@@ -17,10 +17,11 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->bigInteger('main_character_id')->nullable();
+            $table->boolean('admin')->default(false);
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('main_character_id')->references('character_id')->on('characters');
+
         });
     }
 

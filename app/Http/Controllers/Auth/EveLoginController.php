@@ -19,7 +19,6 @@ class EveLoginController extends Controller
         $scopes = config('auth.scopes');
 
         session()->put('scopes', $scopes);
-
         return $social->driver('eveonline')
             ->scopes($scopes)
             ->redirect();

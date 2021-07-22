@@ -44,11 +44,12 @@ class UpdateLocations extends Command
     public function handle()
     {
         //Get Tokens with valid user sessions
-        $tokens = RefreshToken::whereHas('user.sessions')
+        $tokens = RefreshToken::whereHas('user.session')
             //and where characters are being tracked
             ->whereHas('character',function($character){
                 $character->tracking();
             })->get();
+
 
         //dispatch the jobs to find them
         $tokens->each(function($token){

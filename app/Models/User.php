@@ -49,7 +49,7 @@ class User extends Authenticatable
         return $this->hasManyThrough(Character::class, RefreshToken::class, 'user_id', 'character_id', 'id', 'character_id');
     }
 
-    public function sessions(){
+    public function session(){
         return $this->hasMany(Session::class);
     }
 }

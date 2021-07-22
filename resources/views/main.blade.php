@@ -29,7 +29,9 @@
                     <tr>
                         <td class="text-start">{{$toon->name}}</td>
                         <td>
-                            {{$toon->currentLocation->solar_system_id}}
+                            @if(!is_null($toon->currentLocation))
+                                {{$toon->currentLocation->system->name}}
+                            @endif
                         </td>
                         <td>
                             <form action="{{ route('character.tracking.toggle', ['character'=>$toon->getKey()]) }}"
@@ -39,7 +41,7 @@
                                     {{ $toon->tracking ? 'Disabled' : 'Enable' }}
                                 </button>
                             </form>
-                            @if(false)
+                            @if(true)
                                 <form action="{{ route('character.location.fetch', ['character'=>$toon->getKey()]) }}"
                                       method="POST">
                                     @CSRF
@@ -65,7 +67,6 @@
     </div>
 @endsection
 
-
 @section('right')
     <div class="card bg-dark text-start">
         <div class="card-title p-2 px-4">
@@ -83,12 +84,20 @@
                     <tr>
                         <td>{{$location->created_at}}</td>
                         <td>{{$location->character->name}}</td>
-                        <td>{{$location->solar_system_id}} - {{$location->station_id}}</td>
+                        <td>{{$location->system->name}}
+                            @if(!is_null($location->station))
+                                {{$location->station->stationName}}
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
         </div>
     </div>
+
+@endsection
+
+@section('map')
 
 @endsection

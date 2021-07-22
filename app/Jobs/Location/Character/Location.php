@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Location\Character;
 
+use App\Events\CharacterLocationChanged;
 use App\Jobs\AbstractedAuthCharacterJob;
 use App\Models\LocationHistory;
 
@@ -61,5 +62,6 @@ class Location extends AbstractedAuthCharacterJob
         if(is_null($latest) || !$latest->isSameLocationAs($new)){
             $new->save();
         }
+        CharacterLocationChanged::dispatch($this->getToken(), $new, $latest);
     }
 }
