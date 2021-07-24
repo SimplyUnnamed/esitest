@@ -30,6 +30,9 @@
                         <td class="text-start">{{$toon->name}}</td>
                         <td>
                             @if(!is_null($toon->currentLocation))
+                                <a href="https://evemaps.dotlan.net/range/Marshal,5/{{$toon->currentLocation->system->name}}" target="_blank">
+                                    {{$toon->currentLocation->system->name}}
+                                </a>
                                 {{$toon->currentLocation->system->name}}
                             @endif
                         </td>
