@@ -4,6 +4,7 @@
     "description": "The Laravel Framework.",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
+    "version": "1.0.0",
     "require": {
         "php": "^7.3|^8.0",
         "ext-json": "*",
