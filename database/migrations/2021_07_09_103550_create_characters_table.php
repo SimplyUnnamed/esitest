@@ -17,6 +17,7 @@ class CreateCharactersTable extends Migration
             $table->bigInteger('character_id')->unique();
             $table->string('name');
             $table->boolean('tracking')->default(false);
+            $table->integer('system_id');
             $table->timestamps();
         });
     }

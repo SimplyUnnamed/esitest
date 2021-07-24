@@ -12,22 +12,14 @@ class Connection extends Model
 
     protected $fillable = ['type', 'origin', 'destination', 'created_by', 'updated_by'];
 
-    public function origin(): \Illuminate\Database\Eloquent\Relations\HasOneThrough
+    public function fromSystem()
     {
-        return $this->hasOneThrough(
-            \App\Models\Sde\System::class,
-            System::class,
-            'id',
-            'system_id',
-            'origin',
-            'system_id'
-        );
-        //return $this->belongsTo(\App\Models\Sde\System::class, 'origin', 'system_id');
+        return $this->belongsTo(System::class, 'origin', 'id');
     }
 
-    public function destination(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function toSystem()
     {
-        return $this->belongsTo(\App\Models\Sde\System::class, 'destination', 'system_id');
+        return $this->belongsTo(System::class, 'destination', 'id');
     }
 
     public function map(): \Illuminate\Database\Eloquent\Relations\BelongsTo

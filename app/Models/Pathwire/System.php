@@ -78,6 +78,6 @@ class System extends Model
     }
 
     public function characters(){
-        return $this->currentLocations()->with('character');
+        return $this->hasMany(Character::class, 'system_id', 'id');
     }
 }

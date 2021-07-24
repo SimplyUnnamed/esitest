@@ -15,11 +15,11 @@ class Travel extends Model
 
     protected $fillable = ['connection_id', 'character_id'];
 
-    protected function connection(){
+    public function connection(){
         return $this->belongsTo(Connection::class);
     }
 
-    protected function character(){
+    public function character(){
         return $this->belongsTo(Character::class, 'character_id', 'character_id');
     }
 }

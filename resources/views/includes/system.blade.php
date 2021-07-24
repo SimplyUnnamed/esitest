@@ -6,8 +6,8 @@
                 Characters
             </h5>
             <ul class="list-group">
-                @foreach($system->characters as $charLink)
-                    <li class="list-group-item">{{$charLink->character->name}}</li>
+                @foreach($system->characters as $char)
+                    <li class="list-group-item">{{$char->name}}</li>
                 @endforeach
             </ul>
 

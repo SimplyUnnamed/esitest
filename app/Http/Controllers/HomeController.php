@@ -8,6 +8,7 @@ use App\Models\LocationHistory;
 use App\Models\Pathwire\Connection;
 use App\Models\Pathwire\System;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -37,10 +38,10 @@ class HomeController extends Controller
         $locations = LocationHistory::whereIn('character_id', $characters->pluck('character_id'))
                                 ->latest()->limit(10)->get();
 
-        $systems = System::with('characters', 'system', 'currentLocations.character')->get();
+        $systems = System::with('characters', 'system', 'characters')->get();
 
-        $connections = Connection::with('origin', 'destination', 'travel.character')->get();
-        dd($connections);
+        $connections = Connection::with('fromSystem.system', 'toSystem.system', 'travel.character')->get();
+
         return view('main', compact('characters', 'locations', 'systems', 'connections'));
     }
 

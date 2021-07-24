@@ -46,6 +46,9 @@ class UpdateMap
             'updated_by' => $event->token->character_id,
         ]);
 
+        $event->token->character->system_id = $newSystem->getKey();
+        $event->token->character->save();
+
         if (!is_null($source) && !is_null($newSystem) && $source->getKey() != $newSystem->getKey()) {
 
             $connection = Connection::where([
@@ -66,6 +69,7 @@ class UpdateMap
                 'connection_id' => $connection->getKey(),
                 'character_id' => $event->token->character_id,
             ]);
+            $travel->save();
         }
 
     }
