@@ -1,12 +1,12 @@
 {
-    "name": "laravel/laravel",
+    "name": "simplyunnamed/esitest",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "An esi test",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^7.4|^8.0",
         "ext-json": "*",
         "composer-runtime-api": "^2.1",
         "eveseat/eseye": "^2.4",
