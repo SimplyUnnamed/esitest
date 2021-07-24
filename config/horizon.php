@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'use' => 'jobs',
+    'use' => 'db3',
 
     /*
     |--------------------------------------------------------------------------
@@ -166,7 +166,7 @@ return [
 
     'defaults' => [
         'supervisor-1' => [
-            'connection' => 'redis',
+            'connection' => 'db3',
             'queue' => ['locations', 'default'],
             'balance' => 'auto',
             'maxProcesses' => 1,
@@ -187,7 +187,7 @@ return [
 
         'local' => [
             'supervisor-1' => [
-                'maxProcesses' => 3,
+                'maxProcesses' => 10,
             ],
         ],
     ],
