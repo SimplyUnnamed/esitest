@@ -15,7 +15,7 @@
                 <h3 class="float-md-start mb-0">{{config('app.name')}}</h3>
             </div>
             <div class="ml-auto"></div>
-            <a class="text-white" href="{{ route('logout') }}" >Logout</a>
+            <a class="text-white" href="{{ route('logout') }}">Logout</a>
         </header>
         <main class="px-3">
             <div class="row">
@@ -30,7 +30,9 @@
                 </div>
             </div>
             <div class="row">
-                @yield('map')
+                <div class="col-12">
+                    @yield('map')
+                </div>
             </div>
         </main>
 

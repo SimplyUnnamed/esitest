@@ -37,10 +37,11 @@ class HomeController extends Controller
         $locations = LocationHistory::whereIn('character_id', $characters->pluck('character_id'))
                                 ->latest()->limit(10)->get();
 
-        $systems = System::all();
-        $connections = Connection::all();
+        $systems = System::with('characters', 'system', 'currentLocations.character')->get();
 
-        return view('main', compact('characters', 'locations'));
+        $connections = Connection::with('origin', 'destination', 'travel.character')->get();
+        dd($connections);
+        return view('main', compact('characters', 'locations', 'systems', 'connections'));
     }
 
     public function logout(){

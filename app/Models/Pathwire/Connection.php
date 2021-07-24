@@ -12,18 +12,31 @@ class Connection extends Model
 
     protected $fillable = ['type', 'origin', 'destination', 'created_by', 'updated_by'];
 
-    public function source(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function origin(): \Illuminate\Database\Eloquent\Relations\HasOneThrough
     {
-        return $this->belongsTo(System::class, 'source', 'id');
+        return $this->hasOneThrough(
+            \App\Models\Sde\System::class,
+            System::class,
+            'id',
+            'system_id',
+            'origin',
+            'system_id'
+        );
+        //return $this->belongsTo(\App\Models\Sde\System::class, 'origin', 'system_id');
     }
 
     public function destination(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(System::class, 'destination', 'id');
+        return $this->belongsTo(\App\Models\Sde\System::class, 'destination', 'system_id');
     }
 
     public function map(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Map::class);
+    }
+
+    public function travel()
+    {
+        return $this->hasMany(Travel::class);
     }
 }

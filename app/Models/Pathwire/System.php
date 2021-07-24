@@ -62,21 +62,22 @@ class System extends Model
         return $this->belongsTo(Map::class);
     }
 
+    public function system(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Sde\System::class, 'system_id', 'system_id');
+    }
+
     public function connections(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Connection::class, 'origin');
     }
 
     public function currentLocations(){
-        return $this->hasMany(LocationHistory::class, 'system_id', 'system_id')
-            ->latest()->groupBy('character_id');
+        return $this->hasMany(LocationHistory::class, 'solar_system_id', 'system_id')
+            ->groupBy('character_id')->latest();
     }
 
     public function characters(){
-        return $this->hasMany(
-            Character::class,
-            'system_id',
-            'system_id'
-        );
+        return $this->currentLocations()->with('character');
     }
 }

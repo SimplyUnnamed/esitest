@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\CharacterLocationChanged;
 use App\Models\Pathwire\Connection;
 use App\Models\Pathwire\System;
+use App\Models\Pathwire\Travel;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\InteractsWithQueue;
@@ -38,17 +39,12 @@ class UpdateMap
                 'updated_by' => $event->token->character_id]);
         }
 
-        $newSystem = System::firstOrNew([
+        $newSystem = System::firstOrCreate([
             'system_id' => $event->new->solar_system_id,
         ], [
             'created_by' => $event->token->character_id,
             'updated_by' => $event->token->character_id,
         ]);
-
-        if (!$newSystem->exists) {
-            $newSystem->save();
-
-        }
 
         if (!is_null($source) && !is_null($newSystem) && $source->getKey() != $newSystem->getKey()) {
 
@@ -66,6 +62,10 @@ class UpdateMap
                 ]);
             });
             $connection->save();
+            $travel = new Travel([
+                'connection_id' => $connection->getKey(),
+                'character_id' => $event->token->character_id,
+            ]);
         }
 
     }

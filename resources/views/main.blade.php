@@ -99,5 +99,31 @@
 @endsection
 
 @section('map')
+    <div class="card mt-2 bg-dark">
+        <div class="card-body">
+            <div class="row">
 
+                <div class="col-6">
+                    <h1>Systems</h1>
+                    <div class="row">
+                        @foreach($systems as $system)
+                            @include('includes.system', ['system'=>$system])
+                        @endforeach
+                    </div>
+                </div>
+
+
+                <div class="col-6">
+                    <h1>Connections</h1>
+                    <div class="row">
+                        @foreach($connections as $connection)
+                            @include('includes.connection', ['connection'=>$connection])
+                        @endforeach
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
 @endsection
