@@ -35,11 +35,12 @@ class Sde extends Command
 
         DB::connection()->getDatabaseName();
 
-        if(!$this->confirm("Are you sure you want to update to the latest EVE SDE", true)){
+        /*if(!$this->confirm("Are you sure you want to update to the latest EVE SDE", true)){
             $this->warn('exiting');
 
             return;
-        }
+        }*/
+        $this->comment('Updating SDE');
         $this->json = $this->getJson();
 
         if(! $this->isStorageOk()){
