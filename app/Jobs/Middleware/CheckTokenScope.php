@@ -23,7 +23,7 @@ class CheckTokenScope
 
         logger()->warning("Job without the required scopes has been queued", [
             'Job' => get_class($job),
-            'Required Scopes' => $job->getScopes(),
+            'Required Scopes' => $job->getScope(),
             'Token scopes' => $job->getToken()->scopes,
             'Token owner'   => $job->getToken()->character_id,
         ]);

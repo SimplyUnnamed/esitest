@@ -4,6 +4,7 @@ namespace App\Jobs\Location\Character;
 
 use App\Events\CharacterLocationChanged;
 use App\Jobs\AbstractedAuthCharacterJob;
+use App\Jobs\Middleware\CheckCharacterOnline;
 use App\Models\LocationHistory;
 
 class Location extends AbstractedAuthCharacterJob
@@ -63,5 +64,13 @@ class Location extends AbstractedAuthCharacterJob
             $new->save();
         }
         CharacterLocationChanged::dispatch($this->getToken(), $new, $latest);
+    }
+
+    public function middleware()
+    {
+        return array_merge(
+            [new CheckCharacterOnline],
+            parent::middleware()
+        );
     }
 }

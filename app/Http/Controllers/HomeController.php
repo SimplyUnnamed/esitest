@@ -45,6 +45,11 @@ class HomeController extends Controller
         return view('main', compact('characters', 'locations', 'systems', 'connections'));
     }
 
+    public function toggleDebug(){
+        session()->put('debug_enabled', !session()->get('debug_enabled', false));
+        return back();
+    }
+
     public function logout(){
         auth()->logout();
 

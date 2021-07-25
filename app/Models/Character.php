@@ -27,7 +27,9 @@ class Character extends Model
         $this->save();
     }
 
-
+    public function getOnlineAttribute(){
+        return !!cache()->tags('online')->get($this->getKey(), false);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

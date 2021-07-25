@@ -27,36 +27,47 @@
                 @foreach($characters as $toon)
 
                     <tr>
-                        <td class="text-start">{{$toon->name}}</td>
+                        <td class="text-start d-flex align-items-center">
+                            <div class="border rounded-circle border-success border-1 mx-2"
+                                 style="width: 10px; height: 10px;  {{$toon->online ? 'background-color: #009933;' : 'background-color:#ff1a1a;'}}">
+                            </div>
+                            {{$toon->name}}
+                        </td>
                         <td>
                             @if(!is_null($toon->currentLocation))
                                 <a href="https://evemaps.dotlan.net/range/Marshal,5/{{$toon->currentLocation->system->name}}" target="_blank">
                                     {{$toon->currentLocation->system->name}}
                                 </a>
-                                {{$toon->currentLocation->system->name}}
                             @endif
                         </td>
                         <td>
                             <form action="{{ route('character.tracking.toggle', ['character'=>$toon->getKey()]) }}"
                                   method="POST">
                                 @CSRF
-                                <button type="submit" class="btn btn-{{ $toon->tracking ? 'danger' : 'primary' }}">
+                                <button type="submit" class="btn btn-sm btn-{{ $toon->tracking ? 'danger' : 'primary' }}">
                                     {{ $toon->tracking ? 'Disabled' : 'Enable' }}
                                 </button>
                             </form>
-                            @if(true)
+                            @if(session()->get('debug_enabled', false))
                                 <form action="{{ route('character.location.fetch', ['character'=>$toon->getKey()]) }}"
                                       method="POST">
                                     @CSRF
-                                    <button type="submit" class="btn btn-info">
+                                    <button type="submit" class="btn btn-info btn-sm">
                                         Update Location
                                     </button>
                                 </form>
                                 <form action="{{ route('character.location.queue', ['character'=>$toon->getKey()]) }}"
                                       method="POST">
                                     @CSRF
-                                    <button type="submit" class="btn btn-info">
+                                    <button type="submit" class="btn btn-info btn-sm">
                                         Queue Location
+                                    </button>
+                                </form>
+                                <form action="{{ route('character.location.online', ['character'=>$toon->getKey()]) }}"
+                                      method="POST">
+                                    @CSRF
+                                    <button type="submit" class="btn btn-info btn-sm">
+                                        Get Online Status
                                     </button>
                                 </form>
                             @endif

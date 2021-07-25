@@ -39,12 +39,17 @@ Route::group([
 
     Route::get('/logout', 'HomeController@logout')->name('logout');
 
+    route::get('/debugging', 'HomeController@toggleDebug')->name('debugging');
+
     Route::post('/character/{character}/toggleTracking',
         'CharacterController@toggleTracking')
         ->name('character.tracking.toggle');
 
     Route::post('/character/{character}/getLocation', 'CharacterController@getLocation')
         ->name('character.location.fetch');
+
+    Route::post('/character/{character}/getOnline', 'CharacterController@getOnline')
+        ->name('character.location.online');
 
      Route::post('/character/{character}/queueLocation', 'CharacterController@queueLocation')
         ->name('character.location.queue');

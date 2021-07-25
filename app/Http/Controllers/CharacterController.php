@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\Location\Character\Location;
+use App\Jobs\Location\Character\Online;
 use App\Models\Character;
 
 
@@ -16,6 +17,12 @@ class CharacterController extends Controller
      */
     public function toggleTracking(Character $character){
         $character->toggleTracking();
+        return back();
+    }
+
+    public function getOnline(Character $character){
+        Online::dispatchNow($character->RefreshToken);
+        //Online::dispatchSync($character->RefreshToken);
         return back();
     }
 

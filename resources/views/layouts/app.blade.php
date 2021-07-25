@@ -15,6 +15,7 @@
                 <h3 class="float-md-start mb-0">{{config('app.name')}}</h3>
             </div>
             <div class="ml-auto"></div>
+            <a class="text-white" href="{{ route('debugging') }}">Toggle Debug Functions</a>
             <a class="text-white" href="{{ route('logout') }}">Logout</a>
         </header>
         <main class="px-3">
