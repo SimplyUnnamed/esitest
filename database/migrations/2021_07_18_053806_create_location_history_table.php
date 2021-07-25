@@ -15,10 +15,10 @@ class CreateLocationHistoryTable extends Migration
     {
         Schema::create('location_histories', function (Blueprint $table) {
             $table->id();
-            $table->integer('character_id');
-            $table->integer('solar_system_id');
-            $table->integer('station_id')->nullable();
-            $table->integer('structure_id')->nullable();
+            $table->bigInteger('character_id')->unsigned();
+            $table->bigInteger('solar_system_id')->unsigned();
+            $table->bigInteger('station_id')->unsigned()->nullable();
+            $table->bigInteger('structure_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }

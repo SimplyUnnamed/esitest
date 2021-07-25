@@ -57,7 +57,7 @@ class Location extends AbstractedAuthCharacterJob
             'station_id'    => property_exists($location, 'station_id') ? $location->station_id : null,
             'structure_id'  => property_exists($location, 'structure_id') ? $location->structure_id : null,
         ]);
-
+        //dd($latest, $new);
         //if there is no history, or the location has changed
         //save the new location.
         if(is_null($latest) || !$latest->isSameLocationAs($new)){
