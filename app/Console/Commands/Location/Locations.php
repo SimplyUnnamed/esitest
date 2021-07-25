@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Location\Commands;
+namespace App\Console\Commands\Location;
 
 use App\Jobs\Location\Character\Location;
 use App\Models\RefreshToken;
@@ -14,7 +14,7 @@ class Locations extends Command
      *
      * @var string
      */
-    protected $signature = 'eve:locations:location';
+    protected $signature = 'eve:location:location';
 
     /**
      * The console command description.
@@ -40,6 +40,7 @@ class Locations extends Command
      */
     public function handle()
     {
+        $this->comment("Running Location Cycle");
         //Get Tokens with valid user sessions
         $tokens = RefreshToken::whereHas('user.session')
             //and where characters are being tracked

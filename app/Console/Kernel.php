@@ -35,7 +35,7 @@ class Kernel extends ConsoleKernel
 
     protected function shortSchedule(\Spatie\ShortSchedule\ShortSchedule $shortSchedule)
     {
-        $shortSchedule->command('eve:locations:location')
+        $shortSchedule->command('eve:location:location')
             ->everySeconds(5)
             ->withoutOverlapping();
 
