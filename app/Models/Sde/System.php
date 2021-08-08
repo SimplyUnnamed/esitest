@@ -26,4 +26,21 @@ class System extends Model
     {
         return $this->hasMany(Station::class, 'system_id', 'system_id');
     }
+
+    public function stargates(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(SystemGate::class, 'system_id', 'system_id');
+    }
+
+    public function connected_systems(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    {
+        return $this->hasManyThrough(
+            System::class,
+            SystemGate::class,
+            'system_id',
+            'system_id',
+            'system_id',
+            'destination_id'
+        );
+    }
 }
