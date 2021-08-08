@@ -43,4 +43,33 @@ class System extends Model
             'destination_id'
         );
     }
+
+
+    public function systems_within($jumps = 10)
+    {
+        $systems = collect([$this]);
+        $this->connected_systems->each(function(System $system) use ($systems){
+           $systems->add($system->withoutRelations());
+        });
+        $temp = collect([]);
+        $currentBranch = $systems;
+        for($i=0; $i < $jumps-1; $i++)
+        {
+            $currentBranch->each(function($system) use ($systems, $temp){
+                $system->connected_systems
+                    ->whereNotIn('system_id', $systems->pluck('system_id'))
+                    ->whereNotIn('system_id', $temp->pluck('system_id'))
+                    ->each(function(System $system) use ($temp){
+                        $temp->add($system);
+                    });
+            });
+            $temp->each(function(System $system) use ($systems){
+               $systems->add($system->withoutRelations());
+            });
+            $currentBranch = $temp;
+            $temp = collect([]);
+        }
+        return $systems;
+
+    }
 }
