@@ -50,7 +50,7 @@ class Sde extends Command
         }
 
 
-        $this->json->tables = ['mapDenormalize', 'staStations'];
+        $this->json->tables = ['mapDenormalize', 'mapSolarSystemJumps', 'staStations'];
         $this->getSde();
         $this->importSde();
         $this->explodeMap();
@@ -238,6 +238,13 @@ class Sde extends Command
             ], DB::table('mapDenormalize')->where('groupID', MapDenormalize::MOON)
                 ->select('itemID', 'orbitID', 'solarSystemID', 'constellationID', 'regionID', 'itemName', 'typeID',
                     'x', 'y', 'z', 'radius', 'celestialIndex', 'orbitIndex'));
+
+        if(DB::table('mapSolarSystemJumps')->exists()){
+            DB::table('system_gates')->truncate();
+            DB::table('system_gates')->insertUsing([
+                'system_id', 'destination_id'
+            ], DB::table('mapSolarSystemJumps')->select(['fromSolarSystemId', 'toSolarSystemId']));
+        }
     }
 
 
