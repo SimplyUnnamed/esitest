@@ -24,10 +24,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command("eve:esi:status")->hourly();
-        $schedule->command("eve:server:status")->hourly();
+        $schedule->command("eve:esi:status")->everyTenMinutes();
+        $schedule->command("eve:server:status")->everyTenMinutes();
+
         $schedule->command('wirepath:systems:clear-expired')->everyFiveMinutes();
         $schedule->command('wirepath:connections:clear-expired')->everyFiveMinutes();
+        $schedule->command('eve:universe:systemkills')->hourly();
 
         // $schedule->command('inspire')->hourly();
     }
