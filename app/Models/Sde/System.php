@@ -2,6 +2,7 @@
 
 namespace App\Models\Sde;
 
+use App\Models\Universe\SystemKills;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -71,6 +72,11 @@ class System extends Model
         }
         return $systems;
 
+    }
+
+    public function kills(){
+        return $this->hasMany(SystemKills::class, 'system_id', 'system_id')
+            ->orderBy('created_at', 'desc');
     }
 
 
