@@ -207,9 +207,9 @@ class Sde extends Command
         DB::table('solar_systems')->truncate();
         DB::table('solar_systems')
             ->insertUsing([
-                'system_id', 'constellation_id', 'region_id', 'name', 'security',
+                'system_id', 'constellation_id', 'region_id', 'name', 'x', 'y', 'z', 'security',
             ], DB::table('mapDenormalize')->where('groupID', MapDenormalize::SYSTEM)
-                ->select('itemID', 'constellationID', 'regionID', 'itemName', 'security'));
+                ->select('itemID', 'constellationID', 'regionID', 'itemName', 'x', 'y', 'z', 'security'));
 
         // extract stars
         DB::table('stars')->truncate();

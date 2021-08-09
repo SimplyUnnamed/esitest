@@ -72,4 +72,16 @@ class System extends Model
         return $systems;
 
     }
+
+
+    public function calculate_distance(System $system)
+    {
+        $x = $this->x - $system->x;
+        $y = $this->y - $system->y;
+        $z = $this->z - $system->z;
+        $x = $x*$x;
+        $y = $y*$y;
+        $z = $z*$z;
+        return sqrt($x + $y + $z);
+    }
 }
