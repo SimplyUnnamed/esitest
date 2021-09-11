@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command("eve:esi:status")->hourly();
+        $schedule->command('eve:universe:stats')->hourly();
         $schedule->command("eve:server:status")->hourly();
         $schedule->command('wirepath:systems:clear-expired')->everyFiveMinutes();
         $schedule->command('wirepath:connections:clear-expired')->everyFiveMinutes();

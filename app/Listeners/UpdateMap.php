@@ -49,28 +49,7 @@ class UpdateMap
         $event->token->character->system_id = $newSystem->getKey();
         $event->token->character->save();
 
-        if (!is_null($source) && !is_null($newSystem) && $source->getKey() != $newSystem->getKey()) {
 
-            $connection = Connection::where([
-                'destination' => $source->getKey(),
-                'origin' => $newSystem->getKey(),
-            ])->firstOr(function () use ($source, $newSystem, $event) {
-                return Connection::firstOrNew([
-                    'origin' => $source->getKey(),
-                    'destination' => $newSystem->getKey(),
-                ], [
-                    'type' => ($source->isWormhole() || $newSystem->isWormhole()) ? 'wormhole' : 'gate',
-                    'created_by' => $event->token->character_id,
-                    'updated_by' => $event->token->character_id,
-                ]);
-            });
-            $connection->save();
-            $travel = new Travel([
-                'connection_id' => $connection->getKey(),
-                'character_id' => $event->token->character_id,
-            ]);
-            $travel->save();
-        }
 
     }
 }

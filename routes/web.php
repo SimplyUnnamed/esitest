@@ -23,7 +23,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Auth'], function(){
         'uses'  => 'EveLoginController@redirect'
     ]);
 
-    Route::get('/auth/sso/eve/callback', [
+    Route::get('/auth/callback', [
         'as'    => 'sso.eve.callback',
         'uses'  => 'EveLoginController@callback'
     ]);

@@ -3,6 +3,7 @@
 namespace App\Jobs\Location\Character;
 
 use App\Events\CharacterLocationChanged;
+use App\Events\Location\LocationUpdated;
 use App\Jobs\AbstractedAuthCharacterJob;
 use App\Jobs\Middleware\CheckCharacterOnline;
 use App\Models\LocationHistory;
@@ -62,8 +63,8 @@ class Location extends AbstractedAuthCharacterJob
         //save the new location.
         if(is_null($latest) || !$latest->isSameLocationAs($new)){
             $new->save();
+            event(new LocationUpdated($this->getCharacterId()));
         }
-        CharacterLocationChanged::dispatch($this->getToken(), $new, $latest);
     }
 
     public function middleware()

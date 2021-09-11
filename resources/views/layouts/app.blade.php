@@ -42,10 +42,5 @@
     </div>
 @endsection
 
-@push('scripts')
-    <script type="text/javascript">
-        setTimeout(location.reload.bind(location), 5000);
-    </script>
-@endpush
 
 

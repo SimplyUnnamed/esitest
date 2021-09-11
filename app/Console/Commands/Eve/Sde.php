@@ -50,7 +50,7 @@ class Sde extends Command
         }
 
 
-        $this->json->tables = ['mapDenormalize', 'staStations'];
+        $this->json->tables = ['mapDenormalize', 'staStations', 'mapSolarSystemJumps'];
         $this->getSde();
         $this->importSde();
         $this->explodeMap();

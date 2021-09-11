@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Location;
 
 use App\Models\RefreshToken;
+use App\Models\User;
 use Illuminate\Console\Command;
 
 class Online extends Command
@@ -29,12 +30,21 @@ class Online extends Command
      */
     public function handle()
     {
-        $tokens = RefreshToken::whereHas('user.session')
+
+        $users = User::whereHas('session')->with('refresh_tokens')->get();
+
+        $users->each(function($user){
+            $user->refresh_tokens->each(function($token) use ($user){
+                \App\Jobs\Location\Character\Online::dispatch($token, $user)->onQueue('online');
+            });
+        });
+        /*$tokens = RefreshToken::whereHas('user.session')
             ->get();
 
         $tokens->each(function ($token) {
+
             \App\Jobs\Location\Character\Online::dispatch($token)->onQueue('online');
-        });
+        });*/
 
         return 0;
     }
