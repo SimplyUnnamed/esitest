@@ -14,17 +14,28 @@ class NearbySystems extends Component
 
     public $range = 3;
 
+    public $sortBy;
+
     public function mount()
     {
         $this->characters = auth()->user()->characters;
         $this->character = $this->characters->first();
         $this->range = 5;
+        $this->sortBy = 'jumps';
         $this->nearBy = collect([]);
     }
 
     public function getNearBySystemsProperty()
     {
-        return $this->character->currentLocation->system->systemsWithinJumps($this->range);
+        return is_null($this->character->currentLocation) ?
+            collect([])
+            : $this->character->currentLocation->system->systemsWithinJumps($this->range+1)
+            ->sortByDesc($this->sortBy);
+    }
+
+    public function setdestination($system_id)
+    {
+        //TODO: Implement Set Waypoint Job
     }
 
     public function getListeners(): array

@@ -35,7 +35,7 @@ class System extends Model
         return $this->hasMany(SystemJumps::class, 'system_id', 'system_id');
     }
 
-    public function recentKills(){
+    public function killStatsLatest(){
         return $this->belongsTo(SystemKills::class, 'system_id','system_id')->latest()
             ->where('created_at', '>', Carbon::now()->subHours(3)->toDateTimeString())
             ->withDefault([
@@ -43,6 +43,21 @@ class System extends Model
                 'pod_kills' => 0,
                 'ship_kills'=>0,
             ]);
+    }
+
+    public function killStatsPrevious(){
+        return $this->belongsTo(SystemKills::class, 'system_id', 'system_id')->latest()
+            ->where('created_at', '>', Carbon::now()->subHours(2)->toDateTimeString())
+            ->where('created_at', '<', Carbon::now()->subhours(1)->toDateTimeString())
+            ->withDefault([
+                'npc_kills' => 0,
+                'pod_kills' => 0,
+                'ship_kills'=> 0,
+            ]);
+    }
+
+    public function getNpcDeltaAttribute(){
+        return $this->killStatsLatest->npc_kills - $this->killStatsPrevious->npc_kills;
     }
 
     public function connections()
@@ -62,10 +77,6 @@ class System extends Model
         $this->jumps = 0;
         $systems = collect([$this]);
 
-        $this->connections->each(function (System $system) use ($systems) {
-            $system->jumps = 1;
-            $systems->add($system->withoutRelations());
-        });
         $temp = collect([]);
         $currentBranch = $systems;
         for ($i = 0; $i < $jumps - 1; $i++) {
@@ -73,7 +84,7 @@ class System extends Model
                 $system->connections()
                     ->whereNotIn('system_id', $systems->pluck('system_id'))
                     ->whereNotIn('system_id', $temp->pluck('system_id'))
-                    ->with('recentKills')
+                    ->with(['killStatsLatest', 'killStatsPrevious'])
                     ->each(function(System $system) use ($temp){
                         $temp->add($system);
                     });
