@@ -10,13 +10,7 @@
         "production": "mix --production"
     },
     "devDependencies": {
-        "axios": "^0.21",
-        "browser-sync": "^2.27.4",
-        "browser-sync-webpack-plugin": "^2.3.0",
-        "laravel-echo": "^1.11.2",
         "laravel-mix": "^6.0.25",
-        "lodash": "^4.17.19",
-        "postcss": "^8.1.14",
         "pusher-js": "^7.0.3"
     }
 }

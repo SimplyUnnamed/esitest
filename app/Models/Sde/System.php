@@ -13,6 +13,8 @@ class System extends Model
 
     protected $table = 'solar_systems';
 
+    public $timestamps = false;
+
     protected $primaryKey = 'system_id';
 
     public function region(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -35,9 +37,15 @@ class System extends Model
         return $this->hasMany(SystemJumps::class, 'system_id', 'system_id');
     }
 
-    public function killStatsLatest(){
+    public function killStats(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(SystemKills::class, 'system_id', 'system_id');
+    }
+
+    public function killStatsLatest(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(SystemKills::class, 'system_id','system_id')->latest()
-            ->where('created_at', '>', Carbon::now()->subHours(3)->toDateTimeString())
+            ->where('created_at', '>', Carbon::now()->subHours(1)->toDateTimeString())
             ->withDefault([
                 'npc_kills' => 0,
                 'pod_kills' => 0,
@@ -45,7 +53,8 @@ class System extends Model
             ]);
     }
 
-    public function killStatsPrevious(){
+    public function killStatsPrevious(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(SystemKills::class, 'system_id', 'system_id')->latest()
             ->where('created_at', '>', Carbon::now()->subHours(2)->toDateTimeString())
             ->where('created_at', '<', Carbon::now()->subhours(1)->toDateTimeString())
@@ -56,8 +65,18 @@ class System extends Model
             ]);
     }
 
+    public function npcKill24Hour(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->killStats()
+            ->where('created_at', '>', Carbon::now()->subHours(24)->toDateTimeString());
+    }
+
     public function getNpcDeltaAttribute(){
         return $this->killStatsLatest->npc_kills - $this->killStatsPrevious->npc_kills;
+    }
+
+    public function getNpc24HourAttribute(){
+        return $this->npcKill24Hour->sum('npc_kills');
     }
 
     public function connections()
@@ -84,7 +103,7 @@ class System extends Model
                 $system->connections()
                     ->whereNotIn('system_id', $systems->pluck('system_id'))
                     ->whereNotIn('system_id', $temp->pluck('system_id'))
-                    ->with(['killStatsLatest', 'killStatsPrevious'])
+                    ->with(['killStatsLatest', 'killStatsPrevious', 'npcKill24Hour'])
                     ->each(function(System $system) use ($temp){
                         $temp->add($system);
                     });

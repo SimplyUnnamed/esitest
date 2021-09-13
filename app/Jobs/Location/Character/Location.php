@@ -2,7 +2,7 @@
 
 namespace App\Jobs\Location\Character;
 
-use App\Events\CharacterLocationChanged;
+
 use App\Events\Location\LocationUpdated;
 use App\Jobs\AbstractedAuthCharacterJob;
 use App\Jobs\Middleware\CheckCharacterOnline;

@@ -19,6 +19,7 @@ class CreateSolarSystemsTable extends Migration
             $table->integer('constellation_id');
             $table->integer('region_id');
             $table->double('security');
+            $table->boolean('has_ice')->default(false);
 
             $table->primary(['system_id']);
             $table->index(['constellation_id']);

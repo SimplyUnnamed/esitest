@@ -2,9 +2,11 @@
 
 namespace App\Jobs\Universe;
 
+use App\Events\KillStatsUpdated;
 use App\Jobs\EsiBase;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 
-class SystemKills extends EsiBase
+class SystemKills extends EsiBase implements ShouldBeUnique
 {
 
     /**
@@ -45,6 +47,13 @@ class SystemKills extends EsiBase
                     'ship_kills'=> $system->ship_kills
                 ]);
             });
+            event(new KillStatsUpdated());
+        }else{
+            $count = \Cache::get(self::class, 0);
+            if($count < 10){
+                \Cache::add(self::class, $count+1, 300);
+                static::delay(60);
+            }
         }
     }
 }

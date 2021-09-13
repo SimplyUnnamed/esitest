@@ -2,8 +2,7 @@
 
 namespace App\Console\Commands\Universe;
 
-use App\Jobs\Universe\SystemJumps;
-use App\Jobs\Universe\SystemKills;
+use App\Jobs\Universe\Cleanup;
 use Illuminate\Console\Command;
 
 class StatCleanup extends Command
@@ -13,14 +12,14 @@ class StatCleanup extends Command
      *
      * @var string
      */
-    protected $signature = 'eve:universe:stats';
+    protected $signature = 'eve:universe:cleanup';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Queues for the online Stats of the universe';
+    protected $description = 'Clean up the stats database';
 
 
     /**
@@ -30,8 +29,7 @@ class StatCleanup extends Command
      */
     public function handle()
     {
-        SystemKills::dispatch();
-        SystemJumps::dispatch();
+        Cleanup::dispatch();
 
         return 0;
     }

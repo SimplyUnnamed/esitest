@@ -26,12 +26,9 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command("eve:esi:status")->hourly();
         $schedule->command('eve:universe:stats')->hourly();
+        $schedule->command('eve:universe:cleanup')->hourly();
         $schedule->command("eve:server:status")->hourly();
-        $schedule->command('wirepath:systems:clear-expired')->everyFiveMinutes();
-        $schedule->command('wirepath:connections:clear-expired')->everyFiveMinutes();
         $schedule->command('eve:location:online')->everyMinute();
-
-        // $schedule->command('inspire')->hourly();
     }
 
     protected function shortSchedule(\Spatie\ShortSchedule\ShortSchedule $shortSchedule)

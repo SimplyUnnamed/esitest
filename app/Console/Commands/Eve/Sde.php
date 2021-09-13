@@ -5,6 +5,7 @@ namespace App\Console\Commands\Eve;
 
 
 use App\Models\Sde\MapDenormalize;
+use App\Models\Sde\System;
 use Cassandra\Map;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -54,6 +55,7 @@ class Sde extends Command
         $this->getSde();
         $this->importSde();
         $this->explodeMap();
+        $this->updateIceSystems();
 
         $this->info('done...');
     }
@@ -238,6 +240,21 @@ class Sde extends Command
             ], DB::table('mapDenormalize')->where('groupID', MapDenormalize::MOON)
                 ->select('itemID', 'orbitID', 'solarSystemID', 'constellationID', 'regionID', 'itemName', 'typeID',
                     'x', 'y', 'z', 'radius', 'celestialIndex', 'orbitIndex'));
+    }
+
+    public function updateIceSystems(){
+
+        $file = storage_path('systems_ice.csv');
+        $systems = collect([]);
+        $handle = fopen($file, 'r');
+
+        while($data = fgetcsv($handle, 1000,',')){
+            $systems->add($data[0]);
+        }
+        fclose($handle);
+
+        System::whereIn('system_id', $systems)->update(['has_ice'=>true]);
+
     }
 
 
