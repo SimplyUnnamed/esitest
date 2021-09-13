@@ -17,3 +17,5 @@ yarn-error.log
 
 *.sql
 *.bz2
+composer.lock
+package-lock.json
