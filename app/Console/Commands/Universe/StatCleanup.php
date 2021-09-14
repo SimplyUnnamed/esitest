@@ -29,7 +29,7 @@ class StatCleanup extends Command
      */
     public function handle()
     {
-        Cleanup::dispatch();
+        Cleanup::dispatch()->onQueue('universe');
 
         return 0;
     }

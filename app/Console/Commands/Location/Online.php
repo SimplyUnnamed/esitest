@@ -35,7 +35,7 @@ class Online extends Command
 
         $users->each(function($user){
             $user->refresh_tokens->each(function($token) use ($user){
-                \App\Jobs\Location\Character\Online::dispatch($token, $user)->onQueue('online');
+                \App\Jobs\Location\Character\Online::dispatch($token, $user)->onQueue('locations');
             });
         });
         /*$tokens = RefreshToken::whereHas('user.session')

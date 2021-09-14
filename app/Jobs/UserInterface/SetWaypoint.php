@@ -16,7 +16,7 @@ class SetWaypoint extends AbstractedAuthCharacterJob
     /**
      * @var string
      */
-    protected $endpoint = '/ui/autopilot/waypoint';
+    protected $endpoint = '/ui/autopilot/waypoint/';
 
     /**
      * @var string

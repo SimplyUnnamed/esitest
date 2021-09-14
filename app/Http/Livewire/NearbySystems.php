@@ -50,7 +50,7 @@ class NearbySystems extends Component
 
     public function setdestination($system_id)
     {
-        SetWaypoint::dispatch($this->character->RefreshToken, $system_id);
+        SetWaypoint::dispatch($this->character->RefreshToken, $system_id)->onQueue('waypoint');
     }
 
 

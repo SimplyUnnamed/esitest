@@ -168,9 +168,9 @@ return [
         'supervisor-1' => [
             'connection' => 'redis',
             'queue' => array_merge(
-                explode(',', env('HORIZON_PRIMARY_QUEUE', 'locations')),
+                explode(',', env('HORIZON_PRIMARY_QUEUE')),
                 [
-                    'default'
+                    'high', 'locations', 'waypoint', 'universe'
                 ]),
             'balance' => 'auto',
             'maxProcesses' => 1,

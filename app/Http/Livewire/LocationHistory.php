@@ -42,7 +42,7 @@ class LocationHistory extends Component
 
     public function setDestination($character_id, int $system_id){
         $character = $this->characters->where('character_id', $character_id)->first();
-        SetWaypoint::dispatch($character->RefreshToken, $system_id);
+        SetWaypoint::dispatch($character->RefreshToken, $system_id)->onQueue('waypoint');;
     }
 
     public function render()

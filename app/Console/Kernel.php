@@ -27,14 +27,19 @@ class Kernel extends ConsoleKernel
         $schedule->command("eve:esi:status")->hourly();
         $schedule->command('eve:universe:stats')->hourly();
         $schedule->command('eve:universe:cleanup')->hourly();
-        $schedule->command("eve:server:status")->hourly();
-        $schedule->command('eve:location:online')->everyMinute();
+        $schedule->command("eve:server:status")->everyMinute();
+        $schedule->command('eve:esi:status')->everyMinute();
+
     }
 
     protected function shortSchedule(\Spatie\ShortSchedule\ShortSchedule $shortSchedule)
     {
         $shortSchedule->command('eve:location:location')
             ->everySeconds(5)
+            ->withoutOverlapping();
+
+        $shortSchedule->command('eve:location:online')
+            ->everyseconds(30)
             ->withoutOverlapping();
 
     }
