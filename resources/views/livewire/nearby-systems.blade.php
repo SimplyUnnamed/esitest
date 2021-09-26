@@ -34,22 +34,7 @@
 
         @foreach($this->nearBySystems as $system)
             <div class="col-2">
-                <div
-                    class="card bg-dark my-2 px-2 text-start border-secondary rounded-4 {{ $system->has_ice ? 'border border-2 border-primary' : ''}}">
-                    <a class="card-title p-2 my-0 text-warning text-decoration-none" href="#"
-                       wire:click="setdestination({{$system->getKey()}})">{{$system->name}} - {{$system->jumps}} jumps
-                        @if($system->has_ice)
-                            <span class="text-primary">( Has Ice )</span>
-                        @endif
-                    </a>
-                    <hr class="my-0"/>
-                    <p class="mb-1">NPC Kills: {{number_format($system->killStatsLatest->npc_kills)}}</p>
-                    <p class="mb-1">24H NPC Kills: {{number_format($system->Npc24Hour)}}</p>
-                    <p class="mb-1 {{ $system->NpcDelta > 0 ? 'text-success' : 'text-danger' }}">NPC
-                        Delta: {{number_format($system->NpcDelta)}}</p>
-                    <p class="mb-1">Ship Kills: {{number_format($system->killStatsLatest->ship_kills)}}</p>
-                    <p class="mb-1">Pod Kills: {{number_format($system->killStatsLatest->pod_kills)}}</p>
-                </div>
+                @include('includes.system-card', ['system'=>$system, 'current'=>$currentSystem])
             </div>
         @endforeach
 

@@ -91,6 +91,14 @@ class System extends Model
         );
     }
 
+
+    public function calculateDistance(System $system)
+    {
+        return sqrt(
+              pow($this->x - $system->x, 2) + pow($this->y - $system->y, 2) + pow($this->z - $system->z, 2)
+        ) / 10000000000000000;
+    }
+
     public function systemsWithinJumps(int $jumps = 5)
     {
         $this->jumps = 0;

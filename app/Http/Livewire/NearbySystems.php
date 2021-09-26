@@ -23,12 +23,16 @@ class NearbySystems extends Component
 
     public $lastStatDate;
 
+    public $currentSystem;
+
     public function mount()
     {
         $this->characters = auth()->user()->characters;
         $this->character_id = $this->characters->first()->getKey();
         $this->character = $this->characters->first();
         $this->lastStatDate = ($sk = SystemKills::Query()->latest()->first()) ? $sk->created_at : 'no-data';
+        $this->currentSystem = \App\Models\LocationHistory::whereIn('character_id', $this->characters->pluck('character_id'))
+            ->latest()->first();
         $this->range = 5;
         $this->sortBy = 'jumps';
         $this->nearBy = collect([]);
@@ -40,10 +44,11 @@ class NearbySystems extends Component
 
     public function getNearBySystemsProperty()
     {
-        return is_null($this->character->currentLocation) ?
+        $systems = is_null($this->character->currentLocation) ?
             collect([])
-            : $this->character->currentLocation->system->systemsWithinJumps($this->range+1)
-            ->sortByDesc($this->sortBy);
+            : $this->character->currentLocation->system->systemsWithinJumps($this->range+1);
+
+        return $this->sortBy === 'distance' ? $systems->sortByDesc($this->sortBy) : $systems->sortBy($this->sortBy);
     }
 
 

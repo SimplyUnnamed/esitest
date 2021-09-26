@@ -16,6 +16,10 @@ class LocationHistory extends Model
           'character_id', 'solar_system_id', 'station_id', 'structure_id'
     ];
 
+    protected $casts = [
+        'locked' => 'boolean'
+    ];
+
 
     public function isSameLocationAs(LocationHistory $location){
         return (
