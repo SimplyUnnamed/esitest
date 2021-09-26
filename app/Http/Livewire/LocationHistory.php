@@ -51,8 +51,15 @@ class LocationHistory extends Component
     }
 
     public function clearHistory(){
-        \App\Models\LocationHistory::whereIn('character_id', $this->characters->pluck('character_id'))->delete();
-        $this->locations = collect([]);
+        $keep =  \App\Models\LocationHistory::whereIn('character_id', $this->characters->pluck('character_id'))
+            ->latest()
+            ->take(1)
+            ->pluck('id');
+        \App\Models\LocationHistory::whereIn('character_id', $this->characters->pluck('character_id'))
+            ->where('locked', false)
+            ->whereNotIn('id', $keep)->delete();
+        //$this->locations = collect([]);
+        $this->mount();
         $this->emit('historyCleared');
     }
 
